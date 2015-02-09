@@ -10,7 +10,26 @@ public:
 	~Hexapod();
 
 	//updater
-	void update_end_effector(, x,y,z,u,v,w);
+	void update_end_effector( double& x,double& y,
+		double& z,double&  u, double& v, double& w);
+
+	//build shoulders
+	void build_shoulders();
+
+	//update wrists
+	void update_wrists();
+
+	void pdate_ik(self, double& x, double&y, double& z,
+		double& u, double& v, double& w);
+
+	void update_shoulders();
+
+	Hexapod * get_rpy();
+
+	Hexapod * get_pos();
+
+	
+        
 
 
 private:
@@ -27,4 +46,11 @@ private:
     double self.ee_left;
     double self.angles [6];
     double self.rel_z;
+
+    double el;
+    double wr;
+    double aa;
+    double cc;
+    double bb;
+    double self.rel_z
 }
