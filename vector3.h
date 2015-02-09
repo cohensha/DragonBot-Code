@@ -22,6 +22,7 @@ class Vector3 {
 		void rotate(double axis, double angle);
 	private:
 		double a[3];
+		
 };
 
 #endif

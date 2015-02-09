@@ -7,6 +7,10 @@ Vector3::Vector3(double x[3]) {
 	a[2]=x[2];
 }
 
+Vector3::~Vector3() {
+	//do we need a deconstructor?
+}
+
 Vector3 Vector3::add(Vector3 b) {
 	return Vector3([a[0]+b[0],a[1]+b[1],a[2]+b[2]]);
 	//will vector3 still be alive when returned?
