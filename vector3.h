@@ -1,4 +1,5 @@
-//put include stuff here
+#ifndef VECTOR3_H
+#define VECTOR3_H
 
 class Vector3 {
 	public:
@@ -21,6 +22,6 @@ class Vector3 {
 		void rotate(double axis, double angle);
 	private:
 		double a[3];
+};
 
-
-}
+#endif
