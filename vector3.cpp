@@ -1,4 +1,5 @@
 #include "vector3.h"
+#include <cmath>
 
 Vector3::Vector3(double x[3]) {
 	a[0]=x[0];
