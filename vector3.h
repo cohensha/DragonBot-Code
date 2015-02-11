@@ -1,11 +1,12 @@
 #ifndef VECTOR3_H
 #define VECTOR3_H
+#include <string>
 
 class Vector3 {
 	public:
-		Vector3(double x, double y, double z);
+		Vector3(double x[3]);
 		~Vector3();
-		Vector3 add(Vector3 b); //is b a vector3 or an array?
+		Vector3 add(Vector3 b);
 		Vector3 sub(Vector3 b);
 		Vector3 mul(Vector3 b);
 		Vector3 mul(double b);
@@ -17,9 +18,9 @@ class Vector3 {
 		double* val();
 		double getitem(int n);
 		void setitem(int n, double v);
-		string repr();
+		std::string repr();
 		Vector3 neg();
-		void rotate(double axis, double angle);
+		void rotate(double axis[], double angle);
 	private:
 		double a[3];
 
