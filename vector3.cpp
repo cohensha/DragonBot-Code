@@ -4,10 +4,10 @@
 #include <sstream>
 
 
-Vector3::Vector3(double x[3]) {
-	a[0]=x[0];
-	a[1]=x[1];
-	a[2]=x[2];
+Vector3::Vector3(double x, double y, double z) {
+	a[0]=x;
+	a[1]=y;
+	a[2]=z;
 }
 
 Vector3::~Vector3() {
@@ -15,28 +15,48 @@ Vector3::~Vector3() {
 }
 
 Vector3 Vector3::add(Vector3 b) {
-	double temp[3]={a[0]+b.a[0],a[1]+b.a[1],a[2]+b.a[2]};
-	return Vector3(temp);
+	//double temp[3]={a[0]+b.a[0],a[1]+b.a[1],a[2]+b.a[2]};
+	return Vector3(a[0]+b.a[0],a[1]+b.a[1],a[2]+b.a[2]);
+}
+
+Vector3 Vector3::operator+(Vector3 b) {
+	return Vector3(a[0]+b.a[0],a[1]+b.a[1],a[2]+b.a[2]);
 }
 
 Vector3 Vector3::sub(Vector3 b) {
-	double temp[3]={a[0]-b.a[0],a[1]-b.a[1],a[2]-b.a[2]};
-	return Vector3(temp);
+	//double temp[3]={a[0]-b.a[0],a[1]-b.a[1],a[2]-b.a[2]};
+	return Vector3(a[0]-b.a[0],a[1]-b.a[1],a[2]-b.a[2]);
+}
+
+Vector3 Vector3::operator-(Vector3 b) {
+	return Vector3(a[0]-b.a[0],a[1]-b.a[1],a[2]-b.a[2]);
 }
 
 Vector3 Vector3::mul(Vector3 b) {
-	double temp[3]={a[0]*b.a[0],a[1]*b.a[1],a[2]*b.a[2]};
-	return Vector3(temp);
+	//double temp[3]={a[0]*b.a[0],a[1]*b.a[1],a[2]*b.a[2]};
+	return Vector3(a[0]*b.a[0],a[1]*b.a[1],a[2]*b.a[2]);
+}
+
+Vector3 Vector3::operator*(Vector3 b) {
+	return Vector3(a[0]*b.a[0],a[1]*b.a[1],a[2]*b.a[2]);
 }
 
 Vector3 Vector3::mul(double b) {
-	double temp[3]={a[0]*b,a[1]*b,a[2]*b};
-	return Vector3(temp);
+	//double temp[3]={a[0]*b,a[1]*b,a[2]*b};
+	return Vector3(a[0]*b,a[1]*b,a[2]*b);
+}
+
+Vector3 Vector3::operator*(double b) {
+	return Vector3(a[0]*b,a[1]*b,a[2]*b);
 }
 
 Vector3 Vector3::div(double b) {
-	double temp[3]={a[0]/b,a[1]/b,a[2]/b};
-	return Vector3(temp);
+	//double temp[3]={a[0]/b,a[1]/b,a[2]/b};
+	return Vector3(a[0]/b,a[1]/b,a[2]/b);
+}
+
+Vector3 Vector3::operator/(double b) {
+	return Vector3(a[0]/b,a[1]/b,a[2]/b);
 }
 
 double Vector3::dot(Vector3 b) {
@@ -47,8 +67,8 @@ Vector3 Vector3::cross(Vector3 b) {
 	double nx = (a[1]*b.a[2])-(a[2]*b.a[1]);
     double ny = (a[2]*b.a[0])-(a[0]*b.a[2]);
     double nz = (a[0]*b.a[1])-(a[1]*b.a[0]);
-    double temp[3]={nx,ny,nz};
-	return Vector3(temp);
+    //double temp[3]={nx,ny,nz};
+	return Vector3(nx,ny,nz);
 }
 
 void Vector3::normalize() {
@@ -78,6 +98,10 @@ double Vector3::getitem(int n) {
 	return a[n];
 }
 
+double Vector3::operator[](int n) {
+	return a[n];
+}
+
 void Vector3::setitem(int n, double v) {
 	a[n]=v;
 	return;
@@ -94,11 +118,11 @@ std::string Vector3::repr(){
 }
 
 Vector3 Vector3::neg() {
-	double temp[3]={-a[0],-a[1], -a[2]};
-	return Vector3(temp);
+	//double temp[3]={-a[0],-a[1], -a[2]};
+	return Vector3(-a[0],-a[1], -a[2]);
 }
 
-void Vector3::rotate(double axis[], double angle) {
+void Vector3::rotate(Vector3 axis, double angle) {
 	double sa=sin(angle);
 	double ca=cos(angle);
 	double x=a[0];
