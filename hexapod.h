@@ -68,5 +68,5 @@ private:
     double aa;
     double cc;
     double bb;
-    double rel_z
+    double rel_z;
 }
