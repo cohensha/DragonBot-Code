@@ -30,8 +30,8 @@ Hexapod::Hexapod (){
 
 Hexapod::~Hexapod();
 
-void Hexapod ::update_end_effector( double x,double y,double z,
-		double u, double v, double w){
+void Hexapod ::update_end_effector( double& x,double& y,double& z,
+		double& u, double& v, double& w){
         //update end effector position
         ee_pos= Vector3(x,y,z);
         ee_rpy= Vector3(radians(u),radians(v),radians(z));
@@ -101,7 +101,8 @@ void Hexapod::update_wrists() {
     }
 }
 
-void Hexapod::update_ik(double x, double y, double z, double u, double v, double w) {
+void Hexapod::update_ik(double& x, double& y, double& z, 
+        double& u, double& v, double& w) {
         //print "Updating IK for pose: " + str(x) + " " + str(y) + " " + str(z) + " " + str(u) + " " + str(v) + " " + str(w)
         z = z+rel_z;
         update_end_effector(x,y,z,u,v,w);
@@ -156,9 +157,10 @@ void Hexapod::update_shoulders() {
 }
 */
 
-Vector3 Hexapod::get_rpy() {
+/*Vector3 Hexapod::get_rpy() {
         return ee_rpy; //will this give a deep copy?
 }
+*/
 
 /* haven't converted this one to c++ yet
 def get_pos(self):
@@ -166,6 +168,7 @@ def get_pos(self):
     ret[2] = ret[2]-self.rel_z
     return ret
 */
+
 
 
 

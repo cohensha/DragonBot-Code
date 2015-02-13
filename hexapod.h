@@ -31,7 +31,7 @@ public:
 
 	//updater
 	void update_end_effector( double& x,double& y,
-		double& z,double&  u, double& v, double& w);
+		double& z,double& u, double& v, double& w);
 
 	//build shoulders
 	void build_shoulders();
@@ -39,7 +39,7 @@ public:
 	//update wrists
 	void update_wrists();
 
-	void pdate_ik(self, double& x, double&y, double& z,
+	void update_ik(double& x, double&y, double& z,
 		double& u, double& v, double& w);
 
 	void update_shoulders();
