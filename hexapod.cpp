@@ -101,7 +101,7 @@ void Hexapod::update_wrists() {
     }
 }
 
-void Hexapod::update_ik(self, x, y, z, u, v, w) {
+void Hexapod::update_ik(double x, double y, double z, double u, double v, double w) {
         //print "Updating IK for pose: " + str(x) + " " + str(y) + " " + str(z) + " " + str(u) + " " + str(v) + " " + str(w)
         z = z+rel_z;
         update_end_effector(x,y,z,u,v,w);
@@ -156,16 +156,20 @@ void Hexapod::update_shoulders() {
 }
 */
 
-/* I haven't changed this into c++ yet
-def get_rpy(self):
-        return copy.deepcopy(self.ee_rpy)
+Vector3 Hexapod::get_rpy() {
+        return ee_rpy; //will this give a deep copy?
+}
 
-
+/* haven't converted this one to c++ yet
 def get_pos(self):
     ret = copy.deepcopy(self.ee_pos)
     ret[2] = ret[2]-self.rel_z
     return ret
 */
+
+
+
+
 
 
 
