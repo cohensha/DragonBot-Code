@@ -5,8 +5,11 @@ Hexapod::Hexapod () {
     //i think wrists, shoulders, elbows, etc are arrays of Vector3...
     for (int i=0; i<6; i++) {
         wrists[i]=Vector3();
+        shoulders[i]=Vector3();
+        elbows[i]=Vector3();
+        shoulder_to_elbow[i]=Vector3();
     }
-    for (int i=0; i<6; i++) {
+    /*for (int i=0; i<6; i++) {
         shoulders[i]=Vector3();
     }
     for (int i=0; i<6; i++) {
@@ -14,7 +17,7 @@ Hexapod::Hexapod () {
     }
     for (int i=0; i<6; i++) {
         shoulder_to_elbow[i]=Vector3();
-    }
+    }*/
 	//shoulders = {0,0,0,0,0,0};
 	//elbows = {0,0,0,0,0,0};
 	//shoulder_to_elbow = {0,0,0,0,0,0};
