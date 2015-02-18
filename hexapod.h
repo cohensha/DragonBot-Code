@@ -30,8 +30,8 @@ public:
 	~Hexapod();
 
 	//updater
-	void update_end_effector( double& x,double& y,
-		double& z,double& u, double& v, double& w);
+	void update_end_effector( double x,double y,
+		double z,double u, double v, double w);
 
 	//build shoulders
 	void build_shoulders();
@@ -51,22 +51,23 @@ public:
 private:
 
 	//variables
-	double wrists[6];
-	double shoulders[6];
-	double elbows[6];
-	double shoulder_to_elbow [6];
-    double ee_pos;
-    double ee_rpy;
-    double ee_up;
-    double ee_fw;
-    double ee_left;
+	Vector3 wrists[6];
+	Vector3 shoulders[6];
+	Vector3 elbows[6];
+	Vector3 shoulder_to_elbow [6];
+    Vector3 ee_pos;
+    Vector3 ee_rpy;
+    Vector3 ee_up;
+    Vector3 ee_fw;
+    Vector3 ee_left;
     double angles [6];
-    double rel_z;
 
-    double el;
-    double wr;
+    Vector3 el;
+    Vector3 wr;
     double aa;
     double cc;
     double bb;
     double rel_z;
-}
+};
+
+#endif
