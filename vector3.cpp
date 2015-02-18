@@ -3,6 +3,12 @@
 #include <string>
 #include <sstream>
 
+Vector3::Vector3() {
+	a[0]=0;
+	a[1]=0;
+	a[2]=0;
+
+}
 
 Vector3::Vector3(double x, double y, double z) {
 	a[0]=x;
@@ -98,7 +104,7 @@ double Vector3::getitem(int n) {
 	return a[n];
 }
 
-double Vector3::operator[](int n) {
+double& Vector3::operator[](int n) {
 	return a[n];
 }
 

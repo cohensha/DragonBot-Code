@@ -4,6 +4,7 @@
 
 class Vector3 {
 	public:
+		Vector3();
 		Vector3(double x, double y, double z);
 		~Vector3();
 		//takes a vector3 to add, returns a new vector3
@@ -33,7 +34,7 @@ class Vector3 {
 		double* val();
 		//returns a value at position n of the Vector3
 		double getitem(int n);
-		double operator[](int n);
+		double& operator[](int n);
 		//changes the value at position b of the Vector3 to n
 		void setitem(int n, double v);
 		//returns a string of the Vector3
