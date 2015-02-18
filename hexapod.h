@@ -39,8 +39,8 @@ public:
 	//update wrists
 	void update_wrists();
 
-	void update_ik(double& x, double&y, double& z,
-		double& u, double& v, double& w);
+	void update_ik(double x, double y, double z,
+		double u, double v, double w);
 
 	void update_shoulders();
 
