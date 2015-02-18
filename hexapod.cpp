@@ -9,15 +9,6 @@ Hexapod::Hexapod () {
         elbows[i]=Vector3();
         shoulder_to_elbow[i]=Vector3();
     }
-    /*for (int i=0; i<6; i++) {
-        shoulders[i]=Vector3();
-    }
-    for (int i=0; i<6; i++) {
-        elbows[i]=Vector3();
-    }
-    for (int i=0; i<6; i++) {
-        shoulder_to_elbow[i]=Vector3();
-    }*/
 	//shoulders = {0,0,0,0,0,0};
 	//elbows = {0,0,0,0,0,0};
 	//shoulder_to_elbow = {0,0,0,0,0,0};
@@ -36,7 +27,6 @@ Hexapod::Hexapod () {
     build_shoulders();
     update_wrists();
 
-
     el = elbows[0];
     wr = wrists[0];
     aa = el[1]-wr[1];
@@ -44,7 +34,7 @@ Hexapod::Hexapod () {
     bb = sqrt(cc*cc-aa*aa);
     rel_z = bb+B2S_Z-T2W_Z;
 
-    //update_ik(0,0,0,0,0,0);
+    update_ik(0,0,0,0,0,0);
 }
 
 Hexapod::~Hexapod() {
@@ -125,8 +115,8 @@ void Hexapod::update_wrists() {
     }
 }
 
-void Hexapod::update_ik(double& x, double& y, double& z, 
-        double& u, double& v, double& w) {
+void Hexapod::update_ik(double x, double y, double z, 
+        double u, double v, double w) {
         //print "Updating IK for pose: " + str(x) + " " + str(y) + " " + str(z) + " " + str(u) + " " + str(v) + " " + str(w)
         z = z+rel_z;
         update_end_effector(x,y,z,u,v,w);
