@@ -177,12 +177,13 @@ void Hexapod::update_shoulders() {
 }
 */
 
-/* haven't converted this one to c++ yet
-def get_pos(self):
-    ret = copy.deepcopy(self.ee_pos)
-    ret[2] = ret[2]-self.rel_z
-    return ret
-*/
+ haven't converted this one to c++ yet
+ get_pos(){
+    Hexapod * ret = copy.deepcopy(ee_pos);
+    ret[2] = ret[2]-rel_z;
+    return ret;
+}
+
 
 /*bool Hexapod::check_ik(double x=None,double y =None, double z=None,
     double u=None, double v=None,double w=None) {
