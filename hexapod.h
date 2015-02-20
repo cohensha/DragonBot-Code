@@ -29,11 +29,11 @@ public:
 
 	Vector3 get_pos();
 
+	//need to write
+	Vector3 deepcopy();
+
 	bool check_ik(double x,double y, double z,
     	double u, double v,double w);
-
-	void best_effort(double& x,double& y,double& z,
- 		double& u,double& v,double& w) ;
 
 	bool check_ik(double x,double y,
 		double z,double u, double v, double w);

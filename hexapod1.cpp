@@ -134,8 +134,8 @@ void Hexapod::update_wrists() {
     }
 }
 
-void Hexapod::update_ik(double x, double y, double z, 
-        double u, double v, double w) {
+void Hexapod::update_ik(Vector3* x, Vector3* y, Vector3* z, 
+        Vector3* u, Vector3* v, Vector3* w) {
         //print "Updating IK for pose: " + str(x) + " " + str(y) + " " + str(z) + " " + str(u) + " " + str(v) + " " + str(w)
         z = z+rel_z;
         update_end_effector(x,y,z,u,v,w);
@@ -190,18 +190,25 @@ void Hexapod::update_shoulders() {
 
 Vector3 Hexapod::get_rpy() { //what is the return type?
     return ee_rpy; //will this give a deep copy?
+    //I think we need to make a copy and return that
+
+   /* Vector3 * new_rpy = new Vector3(this);
+    return new_rpy;*/ 
+    //need to write copy constructor & operator=
+
 }
 
 Vector3 Hexapod::get_pos(){
-    Vector3 ret = ee_pos;
-    ret[2] = ret[2]-rel_z;
+    //need to make another deep copy here
+    Vector3 ret = new Vector3(ee_pos);
+    ret[2] = ret[2]-rel_z; //do we need to write operator-?
     return ret;
 }
 
 bool Hexapod::check_ik(double x,double y, double z,
     double u, double v,double w) {
-    Vector3 old_pos=get_pos(); //what is the type for old_pos?
-    Vector3 old_rpy=get_rpy();
+    Vector3 old_pos= get_pos(); //what is the type for old_pos?
+    Vector3 old_rpy= get_rpy();
 
     /*if (x==NULL) {
         x=old_pos[0];
@@ -225,17 +232,22 @@ bool Hexapod::check_ik(double x,double y, double z,
 
     bool success=true;
     /*
-        try:
-            self.update_ik(x,y,z,u,v,w)
-        except ValueError:
-            success = False
+        if(self.update_ik(x,y,z,u,v,w)){//need to make update return bool
+            self.update_ik(x,y,z,u,v,w);
+        }
+        else{
+            success = false;
+        }
     */
+
+        //ik possible given arm lengths
+        //now consider angle limits
 
     for (int i=0; i<6; i++) {
         Vector3 ua=elbows[i]-shoulders[i];
         Vector3 la=wrists[i]-elbows[i];
         Vector3 z1=Vector3(0,0,1); //changed z to z1, is that okay?
-        Vector3 n=Vector3();
+        Vector3* n= new Vector3;
         if (i%2 == 0) {
             n=z1.cross(ua);
         }
@@ -244,7 +256,7 @@ bool Hexapod::check_ik(double x,double y, double z,
         }
         n.normalize();
         double c=n.dot(la);
-        if (c<0 && std::abs(c) > MAX_IN) {
+        if (c<0 && (std::abs(c) > MAX_IN)) {
             success=false;
         }
         if (c>0 && c> MAX_OUT) {
@@ -259,11 +271,12 @@ bool Hexapod::check_ik(double x,double y, double z,
     return success;
 }
 
-void Hexapod:: best_effort(double& x,double& y,double& z,
+void Hexapod:: best_effort_ik(double& x,double& y,double& z,
  double& u,double& v,double& w) {
     Vector3 old_pos=get_pos();
     Vector3 old_rpy=get_rpy();
 /*
+//how do we convert None to C++?
     if (x==None) {
         x=old_pos[0];
     }
