@@ -2,25 +2,6 @@
 #define HEXAPOD_H
 #include "vector3.h"
 
-//measurements based on computer model of robot
-double BICEP_LENGTH = 5.000;
-double FOREARM_LENGTH =16.750;
-double SWITCH_ANGLE = 19.690;
-//top center to wrist hole: X7.635 Y+/-0.553 Z0.87
-double T2W_X = 7.635;
-double T2W_Y = 0.553;
-double T2W_Z = -0.870;
-//base center to shoulder hole: X8.093 Y+/-2.15 Z7.831
-double B2S_X = 8.093;
-double B2S_Y = 2.150;
-double B2S_Z = 6.618;
-
-//some experimentally determined limits on in/out distance (distance along motor shaft direction)
-double MAX_IN = 4.46;
-double MAX_OUT = 4.25;
-double POS_STEP = 0.1;
-double RPY_STEP = 1;
-
 class Hexapod{
 
 public: 
@@ -44,9 +25,15 @@ public:
 
 	void update_shoulders();
 
-	Hexapod * get_rpy();
+	Vector3 get_rpy();
 
-	Hexapod * get_pos();
+	Vector3 get_pos();
+
+	bool check_ik(double x,double y, double z,
+    	double u, double v,double w);
+
+	void best_effort(double& x,double& y,double& z,
+ 		double& u,double& v,double& w) ;
 
 private:
 

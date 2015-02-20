@@ -1,5 +1,24 @@
 #include "hexapod.h"
 #include <cmath>
+#include <iostream>
+
+double BICEP_LENGTH = 5.000;
+double FOREARM_LENGTH =16.750;
+double SWITCH_ANGLE = 19.690;
+//top center to wrist hole: X7.635 Y+/-0.553 Z0.87
+double T2W_X = 7.635;
+double T2W_Y = 0.553;
+double T2W_Z = -0.870;
+//base center to shoulder hole: X8.093 Y+/-2.15 Z7.831
+double B2S_X = 8.093;
+double B2S_Y = 2.150;
+double B2S_Z = 6.618;
+
+//some experimentally determined limits on in/out distance (distance along motor shaft direction)
+double MAX_IN = 4.46;
+double MAX_OUT = 4.25;
+double POS_STEP = 0.1;
+double RPY_STEP = 1;
 
 Hexapod::Hexapod () {
     //i think wrists, shoulders, elbows, etc are arrays of Vector3...
@@ -23,7 +42,7 @@ Hexapod::Hexapod () {
     //angles = {0.0};
     rel_z = 0.0;
 
-    update_end_effector(0,0,0,0,0,0);
+    update_end_effector(0.0,0.0,0.0,0.0,0.0,0.0);
     build_shoulders();
     update_wrists();
 
@@ -41,12 +60,13 @@ Hexapod::~Hexapod() {
     //
 }
 
-void Hexapod::update_end_effector( double x,double y,double z,
-		double u, double v, double w){
+void Hexapod::update_end_effector( double x,double y,
+    double z, double u, double v, double w){
         //update end effector position
         double pi=atan(1)*4;
-        ee_pos= Vector3(x,y,z);
-        ee_rpy= Vector3(u*pi/180,v*pi/180,z*pi/180);
+        ee_pos=Vector3(x,y,z);
+        std::cout << ee_pos.repr() << std::endl;
+        ee_rpy= Vector3(u*pi/180,v*pi/180,w*pi/180);
         ee_up = Vector3(0,0,1);
         ee_fw = Vector3(1,0,0);
         ee_left= Vector3(0,1,0);
@@ -68,7 +88,6 @@ void Hexapod::update_end_effector( double x,double y,double z,
         ee_up.rotate(axis, ee_rpy[2]);
         ee_fw.rotate(axis, ee_rpy[2]);
         ee_left.rotate(axis, ee_rpy[2]);
-
 }
 
 void Hexapod::build_shoulders() {
@@ -124,11 +143,9 @@ void Hexapod::update_ik(double x, double y, double z,
         update_shoulders();
 }
 
-/* i'm not sure if I did this function right
-need to check over the types for each variable
-
 void Hexapod::update_shoulders() {
     for (int i=0; i<6; i++) {
+        double pi=atan(1)*4;
         Vector3 ortho = Vector3(cos((i/2)*2*pi/3.0),sin((i/2)*2*pi/3.0), 0);
         Vector3 w = wrists[i]-shoulders[i];
         double a = w.dot(ortho);
@@ -152,11 +169,11 @@ void Hexapod::update_shoulders() {
         Vector3 r = ortho.cross(wop);
 
         if (i%2 == 0) {
-            self.elbows[i]=temp + r*hh;
+            elbows[i]=temp + r*hh;
         }
 
         else {
-            self.elbows[i]=temp - r*hh;
+            elbows[i]=temp - r*hh;
         }
 
         temp = elbows[i]-shoulders[i];
@@ -167,69 +184,67 @@ void Hexapod::update_shoulders() {
         if (shoulder_to_elbow[i].dot(temp) < 0) {
             x = -x;
         }
-        angles[i] = degrees(atan2(-y,x));
+        angles[i] = atan2(-y,x)*180/pi;
     }
 }
-*/
 
-/*Vector3 Hexapod::get_rpy() { //what is the return type?
+Vector3 Hexapod::get_rpy() { //what is the return type?
     return ee_rpy; //will this give a deep copy?
 }
-*/
 
-/* haven't converted this one to c++ yet
-def get_pos(self):
-    ret = copy.deepcopy(self.ee_pos)
-    ret[2] = ret[2]-self.rel_z
-    return ret
-*/
+Vector3 Hexapod::get_pos(){
+    Vector3 ret = ee_pos;
+    ret[2] = ret[2]-rel_z;
+    return ret;
+}
 
-/*bool Hexapod::check_ik(double x=None,double y =None, double z=None,
-    double u=None, double v=None,double w=None) {
+bool Hexapod::check_ik(double x,double y, double z,
+    double u, double v,double w) {
     Vector3 old_pos=get_pos(); //what is the type for old_pos?
     Vector3 old_rpy=get_rpy();
 
-    if (x==None) {
+    /*if (x==NULL) {
         x=old_pos[0];
     }
-    if (y==None) {
+    if (y==NULL) {
         y=old_pos[1];
     }
-    if (z==None) {
+    if (z==NULL) {
         z=old_pos[2];
     }
-    if (u==None) {
+    if (u==NULL) {
         u=old_rpy[0];
     }
-    if (v==None) {
+    if (v==NULL) {
         v=old_rpy[1];
     }
-    if (w==None) {
+    if (w==NULL) {
         w=old_rpy[2];
     }
+    */
 
     bool success=true;
-
-    how to convert this to c++?
+    /*
         try:
             self.update_ik(x,y,z,u,v,w)
         except ValueError:
             success = False
-    
+    */
 
     for (int i=0; i<6; i++) {
         Vector3 ua=elbows[i]-shoulders[i];
         Vector3 la=wrists[i]-elbows[i];
-        z=Vector3(0,0,1);
+        Vector3 z1=Vector3(0,0,1); //changed z to z1, is that okay?
+        Vector3 n=Vector3();
         if (i%2 == 0) {
-            Vector3 n=z.cross(ua);
+            n=z1.cross(ua);
         }
         else {
-            Vector3 n=ua.cross(z);
+            n=ua.cross(z1);
         }
         n.normalize();
         double c=n.dot(la);
-        if (c<0 && abs(c) > MAX_IN) {
+        if (c<0 && std::abs(c) > MAX_IN) {
             success=false;
         }
         if (c>0 && c> MAX_OUT) {
@@ -244,11 +259,11 @@ def get_pos(self):
     return success;
 }
 
-return type? Hexapod:: best_effort(double x=None,double y=None,double z=None,
- double u=None,double v=None,double w=None) {
+void Hexapod:: best_effort(double& x,double& y,double& z,
+ double& u,double& v,double& w) {
     Vector3 old_pos=get_pos();
     Vector3 old_rpy=get_rpy();
-
+/*
     if (x==None) {
         x=old_pos[0];
     }
@@ -267,27 +282,37 @@ return type? Hexapod:: best_effort(double x=None,double y=None,double z=None,
     if (w==None) {
         w=old_rpy[2];
     }
-    
+    */
     bool success=check_ik(x,y,z,u,v,w);
+    
+    Vector3 zero_pos=Vector3(0,0,0);
+    Vector3 zero_rpy=Vector3(0,0,0);
+
+    Vector3 goal_pos;
+    Vector3 goal_rpy;
+
+    Vector3 step_pos;
+    Vector3 step_rpy;
+
+    Vector3 new_goal_pos;
+    Vector3 new_goal_rpy;
+
     while (!success) {
-        Vector3 goal_pos=Vector3(x,y,z);
-        Vector3 goal_rpy=Vector3(u,v,w);
+        goal_pos=Vector3(x,y,z);
+        goal_rpy=Vector3(u,v,w);
 
-        Vector3 zero_pos=Vector3(0,0,0);
-        Vector3 zero_rpy=Vector3(0,0,0);
-
-        Vector3 step_pos=zero_pos-goal_pos;
-        Vector3 step_rpy=zero_pos-goal_rpy;
+        step_pos=zero_pos-goal_pos;
+        step_rpy=zero_pos-goal_rpy;
 
         step_pos.normalize();
         step_pos=step_pos*POS_STEP;
         step_rpy.normalize();
         step_rpy=step_rpy+step_rpy;
 
-        Vector3 new_goal_pos=goal_pos_step_pos;
-        Vector3 new_goal_rpy=goal_rpy+step_rpy;
+        new_goal_pos=goal_pos+step_pos;
+        new_goal_rpy=goal_rpy+step_rpy;
 
-        x=new_goal+pos[0];
+        x = new_goal_pos[0];
         y = new_goal_pos[1];
         z = new_goal_pos[2];
 
@@ -295,15 +320,14 @@ return type? Hexapod:: best_effort(double x=None,double y=None,double z=None,
         v = new_goal_rpy[1];
         w = new_goal_rpy[2];
 
-        success=self.check_ik(x,y,z,u,v,w);
-    }
-    if (!success) {
-        cout << "Nearest valid pose: " + new_goal_rpy.repr() + new_goal_rpy.repr() << endl;
+        success=check_ik(x,y,z,u,v,w); 
     }
 
-    how to return x,y,z,u,v,w?
+    if (!success) {
+        std::cout << "Nearest valid pose: " << new_goal_pos.repr() << new_goal_rpy.repr() << std::endl;
+    }
 }
-*/
+
 
 
 
