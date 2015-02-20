@@ -185,9 +185,9 @@ void Hexapod::update_shoulders() {
 }
 
 
-/*bool Hexapod::check_ik(double x=None,double y =None, double z=None,
+bool Hexapod::check_ik(double x=None,double y =None, double z=None,
     double u=None, double v=None,double w=None) {
-    Vector3 old_pos=get_pos(); //what is the type for old_pos?
+    Vector3 old_pos = get_pos(); //what is the type for old_pos?
     Vector3 old_rpy=get_rpy();
 
     if (x==None) {
@@ -212,7 +212,8 @@ void Hexapod::update_shoulders() {
     bool success=true;
 
     how to convert this to c++?
-        try:
+        if() //I think we can make it return a bool value if executes correctly,
+            //then use if statement
             self.update_ik(x,y,z,u,v,w)
         except ValueError:
             success = False
@@ -245,10 +246,10 @@ void Hexapod::update_shoulders() {
     return success;
 }
 
-return type? Hexapod:: best_effort(double x=None,double y=None,double z=None,
- double u=None,double v=None,double w=None) {
-    Vector3 old_pos=get_pos();
-    Vector3 old_rpy=get_rpy();
+void Hexapod:: best_effort(double& x=None,double& y=None,double& z=None,
+ double& u=None,double& v=None,double& w=None) {
+    Vector3 old_pos = get_pos();
+    Vector3 old_rpy = get_rpy();
 
     if (x==None) {
         x=old_pos[0];
@@ -304,7 +305,7 @@ return type? Hexapod:: best_effort(double x=None,double y=None,double z=None,
 
     how to return x,y,z,u,v,w?
 }
-*/
+
 
 
 
