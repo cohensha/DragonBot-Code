@@ -28,9 +28,6 @@ Hexapod::Hexapod () {
         elbows[i]=Vector3();
         shoulder_to_elbow[i]=Vector3();
     }
-	//shoulders = {0,0,0,0,0,0};
-	//elbows = {0,0,0,0,0,0};
-	//shoulder_to_elbow = {0,0,0,0,0,0};
     ee_pos = Vector3(0.0,0.0,0.0);
     ee_rpy = Vector3(0.0,0.0,0.0);
     ee_up = Vector3(0.0,0.0,0.0);
@@ -39,7 +36,6 @@ Hexapod::Hexapod () {
     for (int i=0; i<6;i++) {
         angles[i]=0.0;
     }
-    //angles = {0.0};
     rel_z = 0.0;
 
     update_end_effector(0.0,0.0,0.0,0.0,0.0,0.0);
@@ -134,8 +130,8 @@ void Hexapod::update_wrists() {
     }
 }
 
-void Hexapod::update_ik(Vector3* x, Vector3* y, Vector3* z, 
-        Vector3* u, Vector3* v, Vector3* w) {
+void Hexapod::update_ik(double x, double y, double z, 
+        double u, double v, double w) {
         //print "Updating IK for pose: " + str(x) + " " + str(y) + " " + str(z) + " " + str(u) + " " + str(v) + " " + str(w)
         z = z+rel_z;
         update_end_effector(x,y,z,u,v,w);
@@ -178,7 +174,7 @@ void Hexapod::update_shoulders() {
 
         temp = elbows[i]-shoulders[i];
         double y = -temp[2];
-        temp[2] = 0; //will this actually change it to 0?
+        temp[2] = 0;
         double x = temp.length();
 
         if (shoulder_to_elbow[i].dot(temp) < 0) {
@@ -188,44 +184,37 @@ void Hexapod::update_shoulders() {
     }
 }
 
-Vector3 Hexapod::get_rpy() { //what is the return type?
-    return ee_rpy; //will this give a deep copy?
-    //I think we need to make a copy and return that
-
-   /* Vector3 * new_rpy = new Vector3(this);
-    return new_rpy;*/ 
-    //need to write copy constructor & operator=
-
+Vector3 Hexapod::get_rpy() {
+    return ee_rpy;
 }
 
 Vector3 Hexapod::get_pos(){
-    //need to make another deep copy here
     Vector3 ret = new Vector3(ee_pos);
-    ret[2] = ret[2]-rel_z; //do we need to write operator-?
+    ret[2] = ret[2]-rel_z;
     return ret;
 }
 
 bool Hexapod::check_ik(double x,double y, double z,
     double u, double v,double w) {
-    Vector3 old_pos= get_pos(); //what is the type for old_pos?
+    Vector3 old_pos= get_pos();
     Vector3 old_rpy= get_rpy();
 
-    /*if (x==NULL) {
+    /*if (x==NONE) {
         x=old_pos[0];
     }
-    if (y==NULL) {
+    if (y==NONE) {
         y=old_pos[1];
     }
-    if (z==NULL) {
+    if (z==NONE) {
         z=old_pos[2];
     }
-    if (u==NULL) {
+    if (u==NONE) {
         u=old_rpy[0];
     }
-    if (v==NULL) {
+    if (v==NONE) {
         v=old_rpy[1];
     }
-    if (w==NULL) {
+    if (w==NONE) {
         w=old_rpy[2];
     }
     */
@@ -239,20 +228,19 @@ bool Hexapod::check_ik(double x,double y, double z,
             success = false;
         }
     */
-
         //ik possible given arm lengths
         //now consider angle limits
 
     for (int i=0; i<6; i++) {
         Vector3 ua=elbows[i]-shoulders[i];
         Vector3 la=wrists[i]-elbows[i];
-        Vector3 z1=Vector3(0,0,1); //changed z to z1, is that okay?
+        Vector3 z=Vector3(0,0,1);
         Vector3* n= new Vector3;
         if (i%2 == 0) {
-            n=z1.cross(ua);
+            n=z.cross(ua);
         }
         else {
-            n=ua.cross(z1);
+            n=ua.cross(z);
         }
         n.normalize();
         double c=n.dot(la);
