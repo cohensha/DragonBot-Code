@@ -265,6 +265,11 @@ void Hexapod:: best_effort_ik(double& x,double& y,double& z,
     Vector3 old_rpy=get_rpy();
 /*
 //how do we convert None to C++?
+
+//options: make a bunch of functions of diff names with every combination
+//there is a way to make arguments optional in C++, but C++ can't tell which
+//aren't passed  because it doesn't consider variable names
+//
     if (x==None) {
         x=old_pos[0];
     }
