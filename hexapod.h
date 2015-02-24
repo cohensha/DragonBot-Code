@@ -1,4 +1,4 @@
-#ifndef HEXAPOD_H
+xapo#ifndef HEXAPOD_H
 #define HEXAPOD_H
 #include "vector3.h"
 
@@ -35,7 +35,10 @@ public:
 	bool check_ik(double x,double y, double z,
     	double u, double v,double w);
 
-	void best_effort_ik(double& x, double& y, double& z, double& u, double& v, double& w);
+	bool check_ik(double x,double y,
+		double z,double u, double v, double w);
+
+	void best_effort_ik(double& x, double& y, dobule& z, double& u, double& v, double& w);
 
 
 
