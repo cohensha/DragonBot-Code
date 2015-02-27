@@ -193,43 +193,142 @@ Vector3 Hexapod::get_pos(){
     ret[2] = ret[2]-rel_z;
     return ret;
 }
-
-bool Hexapod::check_ik(double x,double y, double z,
-    double u, double v,double w) {
+bool Hexapod::check_ik(char pos1, double val1, char pos2='n', double val2=0, char pos3='n', double val3=0,
+                        char pos4='n', double val4=0, char pos5='n', double val5=0, char pos6='n', val6=0) {
     Vector3 old_pos= get_pos();
     Vector3 old_rpy= get_rpy();
-
-    /*if (x==NONE) {
-        x=old_pos[0];
+    double x,y,z,u,v,w;
+    x=old_pos[0];
+    y=old_pos[1];
+    z=old_pos[2];
+    u=old_rpy[0];
+    v=old_rpy[1];
+    w=old_rpy[2];
+    bool success;
+    if (pos1=='x') {
+        x=val1;
     }
-    if (y==NONE) {
-        y=old_pos[1];
+    else if (pos1=='y') {
+        y=val1;
     }
-    if (z==NONE) {
-        z=old_pos[2];
+    else if (pos1=='z') {
+        z=val1;
     }
-    if (u==NONE) {
-        u=old_rpy[0];
+    else if (pos1=='u') {
+        u=val1;
     }
-    if (v==NONE) {
-        v=old_rpy[1];
+    else if (pos1=='v') {
+        v=val1;
     }
-    if (w==NONE) {
-        w=old_rpy[2];
+    else  {
+        w=val1;
     }
-    */
-
-    bool success=true;
-    /*
-        if(self.update_ik(x,y,z,u,v,w)){//need to make update return bool
-            self.update_ik(x,y,z,u,v,w);
+    if (pos2!='n') {
+        if (pos2=='x') {
+            x=val2;
         }
-        else{
-            success = false;
+        else if (pos2=='y') {
+            y=val2;
         }
-    */
-        //ik possible given arm lengths
-        //now consider angle limits
+        else if (pos2=='z') {
+            z=val2;
+        }
+        else if (pos2=='u') {
+            u=val2;
+        }
+        else if (pos2=='v') {
+            v=val2;
+        }
+        else  {
+            w=val2;
+        }
+
+        if (pos3!='n') {
+            if (pos3=='x') {
+                x=val3;
+            }
+            else if (pos3=='y') {
+                y=val3;
+            }
+            else if (pos3=='z') {
+                z=val3;
+            }
+            else if (pos3=='u') {
+                u=val3;
+            }
+            else if (pos3=='v') {
+                v=val3;
+            }
+            else  {
+                w=val3;
+            }
+            if (pos4!='n') {
+                if (pos4=='x') {
+                    x=val4;
+                }
+                else if (pos4=='y') {
+                    y=val4;
+                }
+                else if (pos4=='z') {
+                    z=val4;
+                }
+                else if (pos4=='u') {
+                    u=val4;
+                }
+                else if (pos4=='v') {
+                    v=val4;
+                }
+                else  {
+                    w=val4;
+                }      
+                if (pos5!='n') {
+                    if (pos5=='x') {
+                        x=val5;
+                    }
+                    else if (pos5=='y') {
+                        y=val5;
+                    }
+                    else if (pos5=='z') {
+                        z=val5;
+                    }
+                    else if (pos5=='u') {
+                        u=val5;
+                    }
+                    else if (pos5=='v') {
+                        v=val5;
+                    }
+                    else  {
+                        w=val5;         
+                    }
+                    if (pos6!='n') {
+                        if (pos6=='x') {
+                            x=val6;
+                        }
+                        else if (pos6=='y') {
+                            y=val6;
+                        }
+                        else if (pos6=='z') {
+                            z=val6;
+                        }
+                        else if (pos6=='u') {
+                            u=val6;
+                        }
+                        else if (pos5=='v') {
+                            v=val6;
+                        }
+                        else  {
+                            w=val6;         
+                        }
+    bool success= true;
+    try {
+        self.update_ik(x,y,z,u,v,w);
+    }
+    catch (...)//std::invalid_argument) {
+        success = false;
+    }
+
+    //ik possible given arm lengths
+    //now consider angle limits
 
     for (int i=0; i<6; i++) {
         Vector3 ua=elbows[i]-shoulders[i];
@@ -259,8 +358,8 @@ bool Hexapod::check_ik(double x,double y, double z,
     return success;
 }
 
-void Hexapod:: best_effort_ik( char pos1 = 'n', double& x, char pos2 = 'n', double& y,char pos3 ='n', double& z,
- char pos4 = 'n', double& u, char pos5 = 'n', double& v, char pos6 = 'n', double& w) {
+void Hexapod:: best_effort_ik(char pos1, double val1, char pos2='n' double val2=0, char pos3='n', double val3=0,
+                        char pos4='n', double val4=0, char pos5='n', double val5=0, char pos6='n', val6=0) {
     Vector3 old_pos=get_pos();
     Vector3 old_rpy=get_rpy();
 
@@ -291,7 +390,7 @@ void Hexapod:: best_effort_ik( char pos1 = 'n', double& x, char pos2 = 'n', doub
         pos6 = 'w';
     } */
    
-    bool success=check_ik(pos1,x,pos2,y,pos3,z,pos4,u,pos5,v,pos6,w);
+    bool success=check_ik(pos1,val1,pos2,val2, pos3, val3, pos4, val4,pos5,val5, pos6,val6);
     
     Vector3 zero_pos=Vector3(0,0,0);
     Vector3 zero_rpy=Vector3(0,0,0);

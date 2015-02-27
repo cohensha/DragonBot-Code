@@ -32,13 +32,11 @@ public:
 	//need to write
 	Vector3 deepcopy();
 
-	bool check_ik(double x,double y, double z,
-    	double u, double v,double w);
+	bool check_ik(char pos1, double val1, char pos2='n' double val2=0, char pos3='n', double val3=0,
+                        char pos4='n', double val4=0, char pos5='n', double val5=0, char pos6='n', double val6=0));
 
-	bool check_ik(double x,double y,
-		double z,double u, double v, double w);
-
-	void best_effort_ik(double& x, double& y, dobule& z, double& u, double& v, double& w);
+	void best_effort_ik(char pos1, double val1, char pos2='n' double val2=0, char pos3='n', double val3=0,
+                        char pos4='n', double val4=0, char pos5='n', double val5=0, char pos6='n', double val6=0);
 
 
 
