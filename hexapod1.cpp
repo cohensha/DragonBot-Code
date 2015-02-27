@@ -259,37 +259,39 @@ bool Hexapod::check_ik(double x,double y, double z,
     return success;
 }
 
-void Hexapod:: best_effort_ik(double& x,double& y,double& z,
- double& u,double& v,double& w) {
+void Hexapod:: best_effort_ik( char pos1 = 'n', double& x, char pos2 = 'n', double& y,char pos3 ='n', double& z,
+ char pos4 = 'n', double& u, char pos5 = 'n', double& v, char pos6 = 'n', double& w) {
     Vector3 old_pos=get_pos();
     Vector3 old_rpy=get_rpy();
-/*
+
 //how do we convert None to C++?
 
-//options: make a bunch of functions of diff names with every combination
-//there is a way to make arguments optional in C++, but C++ can't tell which
-//aren't passed  because it doesn't consider variable names
-//
-    if (x==None) {
+  /*  if (pos1 == 'n') {
         x=old_pos[0];
+        pos1 = 'x';
     }
-    if (y==None) {
+    if (pos2 == 'n') {
         y=old_pos[1];
+        pos2 = 'y';
     }
-    if (z==None) {
+    if (pos3 == 'n') {
         z=old_pos[2];
+        pos3 = 'z';
     }
-    if (u==None) {
+    if (pos4 == 'n') {
         u=old_rpy[0];
+        pos4 = 'u';
     }
-    if (v==None) {
+    if (pos5 == 'n') {
         v=old_rpy[1];
+        pos5 = 'v';
     }
-    if (w==None) {
+    if (pos6== 'n') {
         w=old_rpy[2];
-    }
-    */
-    bool success=check_ik(x,y,z,u,v,w);
+        pos6 = 'w';
+    } */
+   
+    bool success=check_ik(pos1,x,pos2,y,pos3,z,pos4,u,pos5,v,pos6,w);
     
     Vector3 zero_pos=Vector3(0,0,0);
     Vector3 zero_rpy=Vector3(0,0,0);
