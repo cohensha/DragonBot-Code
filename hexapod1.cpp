@@ -518,8 +518,8 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2='n', double val2=
         pos6 = 'w';
     }
    	*/
-    bool success=check_ik(pos1,val1,pos2,val2, pos3, val3, pos4, val4,pos5,val5, pos6,val6);
-    
+    //bool success=check_ik(pos1,val1,pos2,val2, pos3, val3, pos4, val4,pos5,val5, pos6,val6);
+    bool success=check_ik('x',x,'y',y,'z',z,'u',u,'v',v,'w',w);
     Vector3 zero_pos=Vector3(0,0,0);
     Vector3 zero_rpy=Vector3(0,0,0);
 
