@@ -2,6 +2,8 @@
 #include <cmath>
 #include <iostream>
 
+using namespace std;
+
 double BICEP_LENGTH = 5.000;
 double FOREARM_LENGTH =16.750;
 double SWITCH_ANGLE = 19.690;
@@ -189,12 +191,13 @@ Vector3 Hexapod::get_rpy() {
 }
 
 Vector3 Hexapod::get_pos(){
-    Vector3 ret = new Vector3(ee_pos);
+    Vector3 ret = Vector3(ee_pos);
     ret[2] = ret[2]-rel_z;
     return ret;
 }
+
 bool Hexapod::check_ik(char pos1, double val1, char pos2='n', double val2=0, char pos3='n', double val3=0,
-                        char pos4='n', double val4=0, char pos5='n', double val5=0, char pos6='n', val6=0) {
+                        char pos4='n', double val4=0, char pos5='n', double val5=0, char pos6='n', double val6=0) {
     Vector3 old_pos= get_pos();
     Vector3 old_rpy= get_rpy();
     double x,y,z,u,v,w;
@@ -319,11 +322,17 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2='n', double val2=0, cha
                         else  {
                             w=val6;         
                         }
-    bool success= true;
+                    }
+                }
+            }
+        }
+    }        
+    success= true;
     try {
-        self.update_ik(x,y,z,u,v,w);
+        update_ik(x,y,z,u,v,w);
     }
     catch (...)//std::invalid_argument) {
+    {
         success = false;
     }
 
@@ -334,7 +343,7 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2='n', double val2=0, cha
         Vector3 ua=elbows[i]-shoulders[i];
         Vector3 la=wrists[i]-elbows[i];
         Vector3 z=Vector3(0,0,1);
-        Vector3* n= new Vector3;
+        Vector3 n;
         if (i%2 == 0) {
             n=z.cross(ua);
         }
@@ -357,15 +366,15 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2='n', double val2=0, cha
     }
     return success;
 }
-
-void Hexapod:: best_effort_ik(char pos1, double val1, char pos2='n' double val2=0, char pos3='n', double val3=0,
-                        char pos4='n', double val4=0, char pos5='n', double val5=0, char pos6='n', val6=0) {
+/*
+void Hexapod::best_effort_ik(char pos1, double val1, char pos2='n', double val2=0, char pos3='n', double val3=0,
+                        char pos4='n', double val4=0, char pos5='n', double val5=0, char pos6='n', double val6=0) {
     Vector3 old_pos=get_pos();
     Vector3 old_rpy=get_rpy();
 
 //how do we convert None to C++?
 
-  /*  if (pos1 == 'n') {
+    if (pos1 == 'n') {
         x=old_pos[0];
         pos1 = 'x';
     }
@@ -388,7 +397,7 @@ void Hexapod:: best_effort_ik(char pos1, double val1, char pos2='n' double val2=
     if (pos6== 'n') {
         w=old_rpy[2];
         pos6 = 'w';
-    } */
+    }
    
     bool success=check_ik(pos1,val1,pos2,val2, pos3, val3, pos4, val4,pos5,val5, pos6,val6);
     
@@ -434,7 +443,7 @@ void Hexapod:: best_effort_ik(char pos1, double val1, char pos2='n' double val2=
         std::cout << "Nearest valid pose: " << new_goal_pos.repr() << new_goal_rpy.repr() << std::endl;
     }
 }
-
+*/
 
 
 
