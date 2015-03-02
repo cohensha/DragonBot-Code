@@ -366,14 +366,133 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2='n', double val2=0, cha
     }
     return success;
 }
-/*
+
 void Hexapod::best_effort_ik(char pos1, double val1, char pos2='n', double val2=0, char pos3='n', double val3=0,
                         char pos4='n', double val4=0, char pos5='n', double val5=0, char pos6='n', double val6=0) {
     Vector3 old_pos=get_pos();
     Vector3 old_rpy=get_rpy();
-
+    double x,y,z,u,v,w;
 //how do we convert None to C++?
+	if (pos1=='x') {
+        x=val1;
+    }
+    else if (pos1=='y') {
+        y=val1;
+    }
+    else if (pos1=='z') {
+        z=val1;
+    }
+    else if (pos1=='u') {
+        u=val1;
+    }
+    else if (pos1=='v') {
+        v=val1;
+    }
+    else  {
+        w=val1;
+    }
+    if (pos2!='n') {
+        if (pos2=='x') {
+            x=val2;
+        }
+        else if (pos2=='y') {
+            y=val2;
+        }
+        else if (pos2=='z') {
+            z=val2;
+        }
+        else if (pos2=='u') {
+            u=val2;
+        }
+        else if (pos2=='v') {
+            v=val2;
+        }
+        else  {
+            w=val2;
+        }
 
+        if (pos3!='n') {
+            if (pos3=='x') {
+                x=val3;
+            }
+            else if (pos3=='y') {
+                y=val3;
+            }
+            else if (pos3=='z') {
+                z=val3;
+            }
+            else if (pos3=='u') {
+                u=val3;
+            }
+            else if (pos3=='v') {
+                v=val3;
+            }
+            else  {
+                w=val3;
+            }
+            if (pos4!='n') {
+                if (pos4=='x') {
+                    x=val4;
+                }
+                else if (pos4=='y') {
+                    y=val4;
+                }
+                else if (pos4=='z') {
+                    z=val4;
+                }
+                else if (pos4=='u') {
+                    u=val4;
+                }
+                else if (pos4=='v') {
+                    v=val4;
+                }
+                else  {
+                    w=val4;
+                }      
+                if (pos5!='n') {
+                    if (pos5=='x') {
+                        x=val5;
+                    }
+                    else if (pos5=='y') {
+                        y=val5;
+                    }
+                    else if (pos5=='z') {
+                        z=val5;
+                    }
+                    else if (pos5=='u') {
+                        u=val5;
+                    }
+                    else if (pos5=='v') {
+                        v=val5;
+                    }
+                    else  {
+                        w=val5;         
+                    }
+                    if (pos6!='n') {
+                        if (pos6=='x') {
+                            x=val6;
+                        }
+                        else if (pos6=='y') {
+                            y=val6;
+                        }
+                        else if (pos6=='z') {
+                            z=val6;
+                        }
+                        else if (pos6=='u') {
+                            u=val6;
+                        }
+                        else if (pos5=='v') {
+                            v=val6;
+                        }
+                        else  {
+                            w=val6;         
+                        }
+                    }
+                }
+            }
+        }
+    }  
+   /*      
     if (pos1 == 'n') {
         x=old_pos[0];
         pos1 = 'x';
@@ -398,7 +517,7 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2='n', double val2=
         w=old_rpy[2];
         pos6 = 'w';
     }
-   
+   	*/
     bool success=check_ik(pos1,val1,pos2,val2, pos3, val3, pos4, val4,pos5,val5, pos6,val6);
     
     Vector3 zero_pos=Vector3(0,0,0);
@@ -443,7 +562,7 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2='n', double val2=
         std::cout << "Nearest valid pose: " << new_goal_pos.repr() << new_goal_rpy.repr() << std::endl;
     }
 }
-*/
+
 
 
 
