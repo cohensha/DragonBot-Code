@@ -227,10 +227,7 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2='n', double val2=0, cha
         w=val1;
     }
     if (pos2!='n') {
-        if (pos2=='x') {
-            x=val2;
-        }
-        else if (pos2=='y') {
+        if (pos2=='y') {
             y=val2;
         }
         else if (pos2=='z') {
@@ -247,13 +244,7 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2='n', double val2=0, cha
         }
 
         if (pos3!='n') {
-            if (pos3=='x') {
-                x=val3;
-            }
-            else if (pos3=='y') {
-                y=val3;
-            }
-            else if (pos3=='z') {
+            if (pos3=='z') {
                 z=val3;
             }
             else if (pos3=='u') {
@@ -266,16 +257,7 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2='n', double val2=0, cha
                 w=val3;
             }
             if (pos4!='n') {
-                if (pos4=='x') {
-                    x=val4;
-                }
-                else if (pos4=='y') {
-                    y=val4;
-                }
-                else if (pos4=='z') {
-                    z=val4;
-                }
-                else if (pos4=='u') {
+                if (pos4=='u') {
                     u=val4;
                 }
                 else if (pos4=='v') {
@@ -285,43 +267,14 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2='n', double val2=0, cha
                     w=val4;
                 }      
                 if (pos5!='n') {
-                    if (pos5=='x') {
-                        x=val5;
-                    }
-                    else if (pos5=='y') {
-                        y=val5;
-                    }
-                    else if (pos5=='z') {
-                        z=val5;
-                    }
-                    else if (pos5=='u') {
-                        u=val5;
-                    }
-                    else if (pos5=='v') {
+                    if (pos5=='v') {
                         v=val5;
                     }
                     else  {
                         w=val5;         
                     }
                     if (pos6!='n') {
-                        if (pos6=='x') {
-                            x=val6;
-                        }
-                        else if (pos6=='y') {
-                            y=val6;
-                        }
-                        else if (pos6=='z') {
-                            z=val6;
-                        }
-                        else if (pos6=='u') {
-                            u=val6;
-                        }
-                        else if (pos5=='v') {
-                            v=val6;
-                        }
-                        else  {
                             w=val6;         
-                        }
                     }
                 }
             }
@@ -372,7 +325,12 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2='n', double val2=
     Vector3 old_pos=get_pos();
     Vector3 old_rpy=get_rpy();
     double x,y,z,u,v,w;
-//how do we convert None to C++?
+    x=old_pos[0];
+    y=old_pos[1];
+    z=old_pos[2];
+    u=old_rpy[0];
+    v=old_rpy[1];
+    w=old_rpy[2];
 	if (pos1=='x') {
         x=val1;
     }
@@ -392,10 +350,7 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2='n', double val2=
         w=val1;
     }
     if (pos2!='n') {
-        if (pos2=='x') {
-            x=val2;
-        }
-        else if (pos2=='y') {
+        if (pos2=='y') {
             y=val2;
         }
         else if (pos2=='z') {
@@ -412,13 +367,7 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2='n', double val2=
         }
 
         if (pos3!='n') {
-            if (pos3=='x') {
-                x=val3;
-            }
-            else if (pos3=='y') {
-                y=val3;
-            }
-            else if (pos3=='z') {
+            if (pos3=='z') {
                 z=val3;
             }
             else if (pos3=='u') {
@@ -431,16 +380,7 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2='n', double val2=
                 w=val3;
             }
             if (pos4!='n') {
-                if (pos4=='x') {
-                    x=val4;
-                }
-                else if (pos4=='y') {
-                    y=val4;
-                }
-                else if (pos4=='z') {
-                    z=val4;
-                }
-                else if (pos4=='u') {
+                if (pos4=='u') {
                     u=val4;
                 }
                 else if (pos4=='v') {
@@ -450,75 +390,19 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2='n', double val2=
                     w=val4;
                 }      
                 if (pos5!='n') {
-                    if (pos5=='x') {
-                        x=val5;
-                    }
-                    else if (pos5=='y') {
-                        y=val5;
-                    }
-                    else if (pos5=='z') {
-                        z=val5;
-                    }
-                    else if (pos5=='u') {
-                        u=val5;
-                    }
-                    else if (pos5=='v') {
+                    if (pos5=='v') {
                         v=val5;
                     }
                     else  {
                         w=val5;         
                     }
                     if (pos6!='n') {
-                        if (pos6=='x') {
-                            x=val6;
-                        }
-                        else if (pos6=='y') {
-                            y=val6;
-                        }
-                        else if (pos6=='z') {
-                            z=val6;
-                        }
-                        else if (pos6=='u') {
-                            u=val6;
-                        }
-                        else if (pos5=='v') {
-                            v=val6;
-                        }
-                        else  {
                             w=val6;         
-                        }
                     }
                 }
             }
         }
-    }  
-   /*      
-    if (pos1 == 'n') {
-        x=old_pos[0];
-        pos1 = 'x';
     }
-    if (pos2 == 'n') {
-        y=old_pos[1];
-        pos2 = 'y';
-    }
-    if (pos3 == 'n') {
-        z=old_pos[2];
-        pos3 = 'z';
-    }
-    if (pos4 == 'n') {
-        u=old_rpy[0];
-        pos4 = 'u';
-    }
-    if (pos5 == 'n') {
-        v=old_rpy[1];
-        pos5 = 'v';
-    }
-    if (pos6== 'n') {
-        w=old_rpy[2];
-        pos6 = 'w';
-    }
-   	*/
-    //bool success=check_ik(pos1,val1,pos2,val2, pos3, val3, pos4, val4,pos5,val5, pos6,val6);
     bool success=check_ik('x',x,'y',y,'z',z,'u',u,'v',v,'w',w);
     Vector3 zero_pos=Vector3(0,0,0);
     Vector3 zero_rpy=Vector3(0,0,0);
