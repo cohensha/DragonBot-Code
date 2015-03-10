@@ -23,7 +23,7 @@ double POS_STEP = 0.1;
 double RPY_STEP = 1;
 
 Hexapod::Hexapod () {
-    //i think wrists, shoulders, elbows, etc are arrays of Vector3...
+
     for (int i=0; i<6; i++) {
         wrists[i]=Vector3();
         shoulders[i]=Vector3();
