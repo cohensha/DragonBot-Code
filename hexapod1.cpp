@@ -63,7 +63,6 @@ void Hexapod::update_end_effector( double x,double y,
         //update end effector position
         double pi=atan(1)*4;
         ee_pos=Vector3(x,y,z);
-        std::cout << ee_pos.repr() << std::endl;
         ee_rpy= Vector3(u*pi/180,v*pi/180,w*pi/180);
         ee_up = Vector3(0,0,1);
         ee_fw = Vector3(1,0,0);
@@ -103,7 +102,7 @@ void Hexapod::build_shoulders() {
         Vector3 o1=(n*-s + (o*c));
 
         shoulders[i*2+0]=n1*B2S_X - o1*B2S_Y + ee_up*B2S_Z;
-        shoulders[i*2+1]=n1*B2S_X - o1*B2S_Y + ee_up*B2S_Z;
+        shoulders[i*2+1]=n1*B2S_X + o1*B2S_Y + ee_up*B2S_Z;
 
         elbows[i*2+0] = n1*B2S_X - o1*(B2S_Y+BICEP_LENGTH) + ee_up*B2S_Z;
         elbows[i*2+1] = n1*B2S_X + o1*(B2S_Y+BICEP_LENGTH) + ee_up*B2S_Z;
@@ -143,8 +142,10 @@ void Hexapod::update_ik(double x, double y, double z,
 
 void Hexapod::update_shoulders() {
     for (int i=0; i<6; i++) {
-        double pi=atan(1)*4;
+        //double pi=atan(1)*4;
+        double pi=3.14159265359;
         Vector3 ortho = Vector3(cos((i/2)*2*pi/3.0),sin((i/2)*2*pi/3.0), 0);
+        
         Vector3 w = wrists[i]-shoulders[i];
         double a = w.dot(ortho);
 
@@ -183,6 +184,8 @@ void Hexapod::update_shoulders() {
             x = -x;
         }
         angles[i] = atan2(-y,x)*180/pi;
+        cout << i << endl;
+        cout << angles[i] << endl;
     }
 }
 
@@ -196,8 +199,8 @@ Vector3 Hexapod::get_pos(){
     return ret;
 }
 
-bool Hexapod::check_ik(char pos1, double val1, char pos2='n', double val2=0, char pos3='n', double val3=0,
-                        char pos4='n', double val4=0, char pos5='n', double val5=0, char pos6='n', double val6=0) {
+bool Hexapod::check_ik(char pos1, double val1, char pos2, double val2, char pos3, double val3,
+                        char pos4, double val4, char pos5, double val5, char pos6, double val6) {
     Vector3 old_pos= get_pos();
     Vector3 old_rpy= get_rpy();
     double x,y,z,u,v,w;
@@ -320,8 +323,8 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2='n', double val2=0, cha
     return success;
 }
 
-void Hexapod::best_effort_ik(char pos1, double val1, char pos2='n', double val2=0, char pos3='n', double val3=0,
-                        char pos4='n', double val4=0, char pos5='n', double val5=0, char pos6='n', double val6=0) {
+void Hexapod::best_effort_ik(char pos1, double val1, char pos2, double val2, char pos3, double val3,
+                        char pos4, double val4, char pos5, double val5, char pos6, double val6) {
     Vector3 old_pos=get_pos();
     Vector3 old_rpy=get_rpy();
     double x,y,z,u,v,w;
@@ -445,6 +448,8 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2='n', double val2=
     if (!success) {
         std::cout << "Nearest valid pose: " << new_goal_pos.repr() << new_goal_rpy.repr() << std::endl;
     }
+    cout << x << ", " << y << ", " <<  z << ", " << u << ", ";
+    cout << v << ", " << w << " " << endl;
 }
 
 
