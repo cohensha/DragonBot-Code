@@ -411,7 +411,10 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2, double val2, cha
             }
         }
     }
+    cout << "1) " << x << ", " << y << ", " <<  z << ", " << u << ", ";
+    	cout << v << ", " << w << " " << endl;
     bool success=check_ik('x',x,'y',y,'z',z,'u',u,'v',v,'w',w);
+    cout << endl << "1) Success? " << success << endl;
     Vector3 zero_pos=Vector3(0,0,0);
     Vector3 zero_rpy=Vector3(0,0,0);
 
@@ -448,16 +451,17 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2, double val2, cha
         w = new_goal_rpy[2];
 
         cout << x << ", " << y << ", " <<  z << ", " << u << ", ";
-    cout << v << ", " << w << " " << endl;
+    	cout << v << ", " << w << " " << endl;
 
-        success=check_ik(x,y,z,u,v,w); 
+        success=check_ik('x',x,'y',y,'z',z,'u',u,'v',v, 'w', w); 
+        cout << "success: ?" << success<< endl;
     }
 
     if (!success) {
         std::cout << "Nearest valid pose: " << new_goal_pos.repr() << new_goal_rpy.repr() << std::endl;
     }
-    cout << x << ", " << y << ", " <<  z << ", " << u << ", ";
-    cout << v << ", " << w << " " << endl;
+    /*cout << x << ", " << y << ", " <<  z << ", " << u << ", ";
+    cout << v << ", " << w << " " << endl;*/
 }
 
 
