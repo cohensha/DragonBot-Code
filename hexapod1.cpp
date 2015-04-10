@@ -1,6 +1,7 @@
 #include "hexapod.h"
 #include <cmath>
 #include <iostream>
+#include <stdexcept>
 
 using namespace std;
 
@@ -94,12 +95,12 @@ void Hexapod::build_shoulders() {
         double c=cos(i*pi*2/3.0);
         double s=sin(i*pi*2/3.0);
 
-        Vector3 n=ee_fw; //what type is ee_fw?
+        Vector3 n=ee_fw;
         Vector3 o=ee_up.cross(ee_fw);
         o.normalize();
 
         Vector3 n1=n*c + o*s;
-        Vector3 o1=(n*-s + (o*c));
+        Vector3 o1=(n*(-s) + (o*c));
 
         shoulders[i*2+0]=n1*B2S_X - o1*B2S_Y + ee_up*B2S_Z;
         shoulders[i*2+1]=n1*B2S_X + o1*B2S_Y + ee_up*B2S_Z;
@@ -151,18 +152,21 @@ void Hexapod::update_shoulders() {
 
         Vector3 wop = w - (ortho*a);
 
-        double b = sqrt(FOREARM_LENGTH*FOREARM_LENGTH-a*a);
-            
+        double b = sqrt(FOREARM_LENGTH*FOREARM_LENGTH-a*a);  
         double r1 = b;
         double r0 = BICEP_LENGTH;
         double d = wop.length();
-
+        if (d==0) {
+            cout << "d is zero!" << endl;
+        }
         a = (r0*r0 - r1*r1 + d*d)/(2*d);
-
         wop = wop/d;
 
         Vector3 temp = shoulders[i]+(wop*a);
 
+        if ((r0*r0-a*a)<0) {
+            throw std::invalid_argument("error");
+        }
         double hh = sqrt(r0*r0-a*a);
 
         Vector3 r = ortho.cross(wop);
@@ -179,11 +183,12 @@ void Hexapod::update_shoulders() {
         double y = -temp[2];
         temp[2] = 0;
         double x = temp.length();
-
+        
         if (shoulder_to_elbow[i].dot(temp) < 0) {
             x = -x;
         }
         angles[i] = atan2(-y,x)*180/pi;
+
         cout << i << endl;
         cout << angles[i] << endl;
     }
@@ -287,7 +292,7 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2, double val2, char pos3
     try {
         update_ik(x,y,z,u,v,w);
     }
-    catch (...)//std::invalid_argument) {
+    catch (const std::invalid_argument& e)//std::invalid_argument) {
     {
         success = false;
     }
@@ -429,7 +434,7 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2, double val2, cha
         step_pos.normalize();
         step_pos=step_pos*POS_STEP;
         step_rpy.normalize();
-        step_rpy=step_rpy+step_rpy;
+        step_rpy=step_rpy*RPY_STEP;
 
         new_goal_pos=goal_pos+step_pos;
         new_goal_rpy=goal_rpy+step_rpy;
@@ -441,6 +446,9 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2, double val2, cha
         u = new_goal_rpy[0];
         v = new_goal_rpy[1];
         w = new_goal_rpy[2];
+
+        cout << x << ", " << y << ", " <<  z << ", " << u << ", ";
+    cout << v << ", " << w << " " << endl;
 
         success=check_ik(x,y,z,u,v,w); 
     }
