@@ -461,7 +461,7 @@ void Hexapod::best_effort_ik(double* a,char pos1, double val1, char pos2, double
     a[2]=z;
     a[3]=u;
     a[4]=v;
-    a[5]=z;
+    a[5]=w;
 }
 
 
