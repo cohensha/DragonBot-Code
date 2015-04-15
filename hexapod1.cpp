@@ -143,8 +143,8 @@ void Hexapod::update_ik(double x, double y, double z,
 
 void Hexapod::update_shoulders() {
     for (int i=0; i<6; i++) {
-        //double pi=atan(1)*4;
-        double pi=3.14159265359;
+        double pi=atan(1)*4;
+        //double pi=3.14159265359;
         Vector3 ortho = Vector3(cos((i/2)*2*pi/3.0),sin((i/2)*2*pi/3.0), 0);
         
         Vector3 w = wrists[i]-shoulders[i];
@@ -292,7 +292,7 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2, double val2, char pos3
     try {
         update_ik(x,y,z,u,v,w);
     }
-    catch (const std::invalid_argument& e)//std::invalid_argument) {
+    catch (const std::invalid_argument& e)
     {
         success = false;
     }
@@ -328,7 +328,7 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2, double val2, char pos3
     return success;
 }
 
-void Hexapod::best_effort_ik(char pos1, double val1, char pos2, double val2, char pos3, double val3,
+void Hexapod::best_effort_ik(double* a,char pos1, double val1, char pos2, double val2, char pos3, double val3,
                         char pos4, double val4, char pos5, double val5, char pos6, double val6) {
     Vector3 old_pos=get_pos();
     Vector3 old_rpy=get_rpy();
@@ -411,10 +411,8 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2, double val2, cha
             }
         }
     }
-    cout << "1) " << x << ", " << y << ", " <<  z << ", " << u << ", ";
-    	cout << v << ", " << w << " " << endl;
+    
     bool success=check_ik('x',x,'y',y,'z',z,'u',u,'v',v,'w',w);
-    cout << endl << "1) Success? " << success << endl;
     Vector3 zero_pos=Vector3(0,0,0);
     Vector3 zero_rpy=Vector3(0,0,0);
 
@@ -450,18 +448,20 @@ void Hexapod::best_effort_ik(char pos1, double val1, char pos2, double val2, cha
         v = new_goal_rpy[1];
         w = new_goal_rpy[2];
 
-        cout << x << ", " << y << ", " <<  z << ", " << u << ", ";
-    	cout << v << ", " << w << " " << endl;
-
         success=check_ik('x',x,'y',y,'z',z,'u',u,'v',v, 'w', w); 
-        cout << "success: ?" << success<< endl;
     }
 
     if (!success) {
         std::cout << "Nearest valid pose: " << new_goal_pos.repr() << new_goal_rpy.repr() << std::endl;
     }
-    /*cout << x << ", " << y << ", " <<  z << ", " << u << ", ";
-    cout << v << ", " << w << " " << endl;*/
+
+    std::cout << "( " << x << ", " << y << ", " << z << ", " << u << ", " << v << ", " << w << " )" << std::endl;
+    a[0]=x;
+    a[1]=y;
+    a[2]=z;
+    a[3]=u;
+    a[4]=v;
+    a[5]=z;
 }
 
 
