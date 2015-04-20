@@ -157,4 +157,13 @@ void Vector3::rotate(Vector3 axis, double angle) {
     return;
 }
 
+std::ostream& operator<<(std::ostream& os, const Vector3 &c) {
+	double scale = 0.01;//round to nearest one-hundreth
+	double value1 = floor(c.a[0]/scale + 0.5) * scale;
+	double value2 = floor(c.a[1]/scale + 0.5) * scale;
+	double value3 = floor(c.a[2]/scale + 0.5) * scale;
+	os <<"[ " << value1 << " , " << value2 << " , " << value3 << " ]";
+	return os;
+}
+
 

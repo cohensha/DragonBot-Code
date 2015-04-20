@@ -1,6 +1,7 @@
 #ifndef VECTOR3_H
 #define VECTOR3_H
 #include <string>
+#include <ostream>
 
 class Vector3 {
 	public:
@@ -43,6 +44,8 @@ class Vector3 {
 		Vector3 neg();
 		//rotates the vector3
 		void rotate(Vector3 axis, double angle);
+
+		friend std::ostream& operator<<(std::ostream& os, const Vector3 &c);
 	private:
 		//Vector3 is constructed as an array of leng 3
 		double a[3];
