@@ -59,6 +59,9 @@ Hexapod::~Hexapod() {
     //
 }
 
+/**
+	updates the end effectors given values of x,y,z,u,v,w
+*/
 void Hexapod::update_end_effector( double x,double y,
     double z, double u, double v, double w){
         //update end effector position
@@ -88,8 +91,8 @@ void Hexapod::update_end_effector( double x,double y,
         ee_left.rotate(axis, ee_rpy[2]);
 }
 
+
 void Hexapod::build_shoulders() {
-    //get shoulder and elbow initial positions
     double pi=atan(1)*4;
     for (int i=0; i<3; i++) {
         double c=cos(i*pi*2/3.0);
@@ -204,6 +207,12 @@ Vector3 Hexapod::get_pos(){
     return ret;
 }
 
+/**
+	checks if ik is possibe.
+	Parameters: char for the value you want to check, followed by the value; ie: check_ik('x',5,'z',3)
+	The char paramters must be in the order: x,y,z,u,v,w
+	Any exclusions of a paramter will default to its previous value
+*/
 bool Hexapod::check_ik(char pos1, double val1, char pos2, double val2, char pos3, double val3,
                         char pos4, double val4, char pos5, double val5, char pos6, double val6) {
     Vector3 old_pos= get_pos();
@@ -328,6 +337,13 @@ bool Hexapod::check_ik(char pos1, double val1, char pos2, double val2, char pos3
     return success;
 }
 
+/**
+	checks if ik is possibe.
+	Parameters: 1st arguments is an array that will store the new values,
+	Secondary arguments: char for the value you want to check, followed by the value; ie: check_ik('x',5,'z',3)
+	The char paramters must be in the order: x,y,z,u,v,w
+	Any exclusions of a paramter will default to its previous value
+*/
 void Hexapod::best_effort_ik(double* a,char pos1, double val1, char pos2, double val2, char pos3, double val3,
                         char pos4, double val4, char pos5, double val5, char pos6, double val6) {
     Vector3 old_pos=get_pos();

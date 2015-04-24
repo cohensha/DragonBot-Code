@@ -1,10 +1,3 @@
-# In this Makefile we'll introduce the concepts of Makefile automatic variables
-# Make will simply substitute these variables with the corresponding string
-# $< - first dependency
-# $^ - all dependencies
-# $@ - target name (whatever's before colon)
-
-# Let's declare some variables
 CC       = g++
 CPPFLAGS = -Wall -g
 BIN_DIR  = bin
