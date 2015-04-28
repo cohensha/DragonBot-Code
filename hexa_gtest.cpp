@@ -65,7 +65,29 @@ TEST_F(HexaTest, Nominal_Best_IK) {
 }
 
 //TODO: check angles!
+TEST_F(HexaTest, Angle_Check) {
 
+	//initial angles should start at 0
+	Hexapod h = Hexapod();
+	double x[6];
+	h.get_angles(x);
+	EXPECT_EQ(x[0], 0.0);
+	EXPECT_EQ(x[1], 0.0);
+	EXPECT_EQ(x[2], 0.0);
+	EXPECT_EQ(x[3], 0.0);
+	EXPECT_EQ(x[4], 0.0);
+	EXPECT_EQ(x[5], 0.0);
+
+	h.best_effort_ik(x,'x',1,'y',1,'z',1,'u',1,'v',1,'w',1);
+	h.update_shoulders();
+	h.get_angles(x);
+	EXPECT_EQ(x[0], );
+	EXPECT_EQ(x[1], atan2(-1,1)*180/pi);
+	EXPECT_EQ(x[2], atan2(-1,1)*180/pi);
+	EXPECT_EQ(x[3], atan2(-1,1)*180/pi);
+	EXPECT_EQ(x[4], atan2(-1,1)*180/pi);
+	EXPECT_EQ(x[5], atan2(-1,1)*180/pi);
+}
 
 
 
